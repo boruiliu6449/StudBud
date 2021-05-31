@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title></title>
+        <link href="ac2b17b88ef0ab3e3e3316d5a6be3892" rel="stylesheet" type="text/css">
+
+    </head>
+    <body>
+        <nav class="left-nav">
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="#home" class="active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tasks" class="active">Task</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#time" class="active">Time</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="home" class="page-container">
+
+        </div>
+        <div id="tasks" class="page-container">
+
+        </div>
+        <div id="time" class="page-container">
+
+        </div>
+
+
+    </body>
+    <script src="4e6340146f7d0152c44dbd6ccf58b0e0"></script>

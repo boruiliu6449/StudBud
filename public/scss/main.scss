@@ -1,0 +1,47 @@
+@import 'layout';
+@import 'components/navigation';
+@import 'components/tasklist';
+@import 'components/addtask';
+
+
+/*行内块元素*/
+input,img{
+    margin: 0;
+    padding: 0;
+    // border: 0 none;
+    outline-style: none;
+    vertical-align: bottom; 
+}
+label{
+    display: inline-block;
+    cursor: pointer;
+}
+
+
+label input[type="radio"]:checked~i,label input[type="checkbox"]:checked~i{
+    color: #38d6ff;
+}
+
+/*可选*/
+/* 自定义数字框配置 */
+input[type="number"]{
+    width: 76px;
+    height: 36px;
+    background-color: rgba(5,45,82,0.4);
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 20px;
+    padding: 0 10px;
+}
+
+input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+}
+
+input[type="number"]+div{
+    width: 30px;
+    height: 40px;
+    padding-left: 2px;
+    cursor: pointer;
+}

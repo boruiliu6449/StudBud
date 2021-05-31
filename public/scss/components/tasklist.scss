@@ -1,0 +1,29 @@
+// #task-grid{
+//     // display: grid;
+//     // grid-template-columns: 1fr 1fr;
+//     // grid-template-rows: 1fr;
+//     // grid-template-areas: "taskform tasklist";
+// }
+
+#taskform{
+    // grid-area: taskform;
+    // max-width: 300px;
+    margin: 90px auto;
+    label{
+        display: block;
+        // width: 100%;
+    }
+    button{
+        background-color: #C3D08B;
+        height: 40px;
+        line-height: 40px;
+        border: none;
+        border-radius: 5px;
+        width: 120px;
+        color: #fff;
+    }
+}
+
+#tasklist{
+    grid-area: tasklist;
+}
