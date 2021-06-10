@@ -24,16 +24,15 @@ label input[type="radio"]:checked~i,label input[type="checkbox"]:checked~i{
 
 /*可选*/
 /* 自定义数字框配置 */
-input[type="number"]{
-    width: 76px;
-    height: 36px;
-    background-color: rgba(5,45,82,0.4);
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 20px;
-    padding: 0 10px;
-}
+// input[type="number"]{
+//     width: 76px;
+//     height: 36px;
+//     border: 2px solid #ccc;
+//     border-radius: 4px;
+//     color: #fff;
+//     font-size: 20px;
+    
+// }
 
 input[type="number"]::-webkit-inner-spin-button{
     -webkit-appearance: none;
@@ -44,4 +43,19 @@ input[type="number"]+div{
     height: 40px;
     padding-left: 2px;
     cursor: pointer;
+}
+
+.audiodiv{
+    margin: 10px 20px;
+}
+
+.djs {
+    font-size: 20px;
+    color: #F24726;
+    // border: 1px solid red;
+    text-align: center;
+    display: contents;
+    // width: 600px;
+    // margin: 20% auto;
+    // line-height: 50px;
 }

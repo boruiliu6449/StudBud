@@ -13,25 +13,23 @@
             </div>
             <ul class="nav-links">
                 <li class="nav-item">
-                    <a href="#home" class="active">Home</a>
+                    <a href="#CoveyQuadrants" class="active">TaskList</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#add" class="active">Add</a>
+                    <a href="#add" class="active">Add Task</a>
                 </li>
-
-                
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="#tasks" class="">Task</a>
                 </li>
                 <li class="nav-item">
                     <a href="#time" class="">Time</a>
-                </li>
+                </li> -->
             </ul>
         </nav>
 
 
 
-        <div id="home" class="page-container">
+        <div id="CoveyQuadrants" class="page-container">
             <!-- <nav class="sub-nav">
                 <ul class="nav-links">
                     <li class="nav-item">
@@ -44,9 +42,77 @@
             </nav> -->
 <!-- class="sub-page-container" -->
             <div id="tasklist">
-                <p id="emptyList">please add some tasks</p>
-                <ul>
-                </ul>
+                <!-- <p id="emptyList">please add some tasks</p> -->
+                <!-- <div class="toptask"> -->
+                    <audio controls="" class="audiodiv">
+                        <source src="/dielianhua.b4525254.mp3" type="audio/mpeg">
+                    </audio>
+                    <!-- <div class="tasknextdo"> -->
+                        <!-- <span class="taskTip">Next up:</span> -->
+                        <!-- <div class="items" id="nextuplist"> -->
+                            
+                            <!-- <p id="nextuplistp" class="tips">dont hava any tasks to do</p> -->
+                            <!-- <div class="item">
+                                <img src="images/icon.png">
+                                <div class="taskcont"> 
+                                    <span>TaskB</span>
+                                    <div class="tasksubcont">
+                                        <p>sjlkjgewsjlkjgewsjlkjgews</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="images/icon.png">
+                                <div class="taskcont"> 
+                                    <span>TaskB</span>
+                                    <div class="tasksubcont">
+                                        <p>sjlkjgewsjlkjgewsjlkjgews</p>
+                                    </div>
+                                </div>
+                            </div> -->
+                        <!-- </div> -->
+<!--                             
+                    </div> -->
+                <!-- </div> -->
+
+                <div class="taskdoing">
+                    <span class="taskTip">Donging:</span>
+                    <div class="items" id="doinglist">
+                        <p id="doinglistp" class="tips">Empty㋡</p>
+                        <!-- <div class="item">
+                            <img src="images/icon.png">
+                            <div class="taskcont"> 
+                                <span>TaskB</span>
+                                <div class="tasksubcont">
+                                    <p>sjlkjgewsjlkjgewsjlkjgews</p>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="taskundo">
+                    <span class="taskTip">Undo:</span>
+                    <div class="items" id="undolist">
+                        <p id="undolistp" class="tips">Empty㋡</p>
+                        
+                    </div>
+                </div>
+                <div class="taskdone">
+                    <span class="taskTip">Done:</span>
+                    <div class="items" id="donelist">
+                        <p id="donelistp" class="tips">Empty㋡</p>
+                        <!-- <div class="item">
+                            <img src="images/icon.png">
+                            <div class="taskcont"> 
+                                <span>TaskB</span>
+                                <div class="tasksubcont">
+                                    <p>sjlkjgewsjlkjgewsjlkjgews</p>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
             </div>
 
             <!-- <div id="addtask" class="sub-page-container" style="display: none;"></div> -->
@@ -54,35 +120,36 @@
 
         <div id="add" class="page-container">
             <!--  class="sub-page-container" -->
+            <h1>Add Task</h1>
             <div id="addtask">
                 <form id="taskform">
-                    <div>
+                    <div class="taskdiv">
                         <label for="task">Task:</label>
                         <input type="text" name="task" id="taskInput" required="">
                     </div>
                     
 
                     <!-- Date input -->
-                    <div>
+                    <div class="taskdiv">
                         <label for="dueDate">Due Date:</label>
                         <input type="date" name="dueDate" id="dueDateInput">
                     </div>
                     
 
                     <!-- Time input -->
-                    <div>
+                    <div class="taskdiv">
                         <label for="completionTime">Completion Time:</label>
                         <input type="time" name="completionTime" id="completionTimeInput">
                     </div>
                     
-                    <div>
+                    <div class="taskdiv">
                         <label for="estimatedTime">Estimated completion time(in mins):</label>
                         <input type="number" name="estimatedTime" id="estimatedTimeInput" required="">
                     </div>
                     
 
                     <!-- priority -->
-                    <div>
+                    <div class="taskdiv">
                         <label for="priority">Task Priority:</label>
                         <select name="prority" id="priorityInput">
                             <option value="">Select one</option>
@@ -101,13 +168,20 @@
             </div>
         </div>
 
-        <div id="tasks" class="page-container">
-            2dsgje;lkkgew
-        </div>
-        <div id="time" class="page-container">
-            3
-        </div>
+        <!-- <div id="tasks" class="page-container">
+            Empty㋡
+            <p id="djs"></p>
+            
+
+            <h1></h1> 
+
+        </div> -->
 
 
+
+
+        <!-- <div id="time" class="page-container">
+            Empty㋡
+        </div> -->
     </body>
     <script src="/script.75da7f30.js"></script>

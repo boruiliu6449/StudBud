@@ -183,10 +183,14 @@ var form = document.getElementById("taskform");
 var button = document.querySelector("#taskform > button");
 var taskInput = document.getElementById("taskInput");
 var tasklist = document.querySelector("#tasklist > ul");
+var tasklistundo = document.querySelector("#undolist");
+var tasklistdoing = document.querySelector("#doinglist");
+var tasklistdone = document.querySelector("#donelist");
 var dueDateInput = document.getElementById("dueDateInput");
 var completionTimeInput = document.getElementById("completionTimeInput");
 var estimatedTimeInput = document.getElementById("estimatedTimeInput");
 var priorityInput = document.getElementById("priorityInput");
+var clockTime;
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   var task = taskInput.value;
@@ -196,7 +200,7 @@ form.addEventListener("submit", function (event) {
   var priorityRating = priorityInput.options[priorityInput.selectedIndex].value;
 
   if (task) {
-    addTask(task, dueDate, estimatedTime, priorityRating, completionTime, false);
+    addTask(task, dueDate, estimatedTime, priorityRating, completionTime, 0);
   }
 });
 var taskListArray = [];
@@ -220,17 +224,36 @@ function addTask(taskDescription, dueDate, estimatedTime, priorityRating, comple
 }
 
 function renderTask(task) {
-  updateEmpty(); // Create HTML elements 
-
-  var item = document.createElement("li");
+  // Create HTML elements 
+  // <div class="item">
+  //                         <img src="images/icon.png">
+  //                         <div class="taskcont"> 
+  //                             <span>TaskB</span>
+  //                             <div class="tasksubcont">
+  //                                 <p>sjlkjgewsjlkjgewsjlkjgews</p>
+  //                             </div>
+  //                         </div>
+  //                     </div>
+  var item = document.createElement("div");
   item.setAttribute('data-id', task.id);
-  item.innerHTML = "<p>" + task.taskDescription + "</p>";
-  tasklist.appendChild(item); // Extra Task DOM elements
+  item.setAttribute('class', 'item');
+  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<div class='taskcont'> " + "<span>" + task.id + "</span>" + "<div class='tasksubcont'>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
+  tasklistundo.appendChild(item); // let item = document.createElement("li");
+  // item.setAttribute('data-id',task.id);
+  // item.innerHTML = "<p>" + task.taskDescription + "</p>";
+  // tasklist.appendChild(item);
+  // Extra Task DOM elements
 
   var delButton = document.createElement("button");
-  var delButtonText = document.createTextNode("Delete Task");
+  delButton.setAttribute('class', 'deletebtn');
+  var delButtonText = document.createTextNode("Delete");
   delButton.appendChild(delButtonText);
-  item.appendChild(delButton); // Event Listeners for DOM elements
+  item.appendChild(delButton);
+  var startButton = document.createElement("button");
+  startButton.setAttribute('class', 'startbtn');
+  var startButtonText = document.createTextNode("Start");
+  startButton.appendChild(startButtonText);
+  item.appendChild(startButton); // Event Listeners for DOM elements
 
   delButton.addEventListener("click", function (event) {
     event.preventDefault();
@@ -240,11 +263,97 @@ function renderTask(task) {
     });
     removeItemFromArray(taskListArray, index);
     console.log(taskListArray);
-    updateEmpty();
     item.remove();
+    updateEmpty();
+  }); //delete from taskListArray to 
+
+  startButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    var id = event.target.parentElement.getAttribute('data-id');
+    task.status = 2; // let index = taskListArray.findIndex(task => task.id === Number(id));
+    // updateItemFromArray(taskListArray,index);
+
+    console.log(taskListArray);
+    item.remove();
+    updateEmpty();
+    addItemForDoing(task);
   }); // Clear the input form
 
   form.reset();
+  updateEmpty();
+}
+
+function addItemForDoing(task) {
+  // Create HTML elements 
+  var item = document.createElement("div");
+  item.setAttribute('data-id', task.id);
+  item.setAttribute('class', 'item');
+  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<p class='djs' id='djs_" + task.priorityRating + "'></p>" + "<div class='taskcont'> " + "<span>" + task.id + "</span>" + "<div class='tasksubcont'>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
+  tasklistdoing.appendChild(item);
+  var delButton = document.createElement("button");
+  delButton.setAttribute('class', 'deletebtn');
+  var delButtonText = document.createTextNode("Delete");
+  delButton.appendChild(delButtonText);
+  item.appendChild(delButton);
+  var endButton = document.createElement("button");
+  endButton.setAttribute('class', 'startbtn');
+  var endButtonText = document.createTextNode("end");
+  endButton.appendChild(endButtonText);
+  item.appendChild(endButton);
+  var stopButton = document.createElement("button");
+  stopButton.setAttribute('class', 'startbtn');
+  var stopButtonText = document.createTextNode("stop");
+  stopButton.appendChild(stopButtonText);
+  item.appendChild(stopButton);
+  var restartButton = document.createElement("button");
+  restartButton.setAttribute('class', 'startbtn');
+  var restartButtonText = document.createTextNode("restart");
+  restartButton.appendChild(restartButtonText);
+  item.appendChild(restartButton);
+  updateTime(new Date(), "djs_" + task.priorityRating);
+  restartButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    clearInterval(clockTime);
+    updateTime(new Date(), "djs_" + task.priorityRating);
+  });
+  stopButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    clearInterval(clockTime);
+  }); // Event Listeners for DOM elements
+
+  delButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    var id = event.target.parentElement.getAttribute('data-id');
+    var index = taskListArray.findIndex(function (task) {
+      return task.id === Number(id);
+    });
+    removeItemFromArray(taskListArray, index);
+    console.log(taskListArray);
+    item.remove();
+    updateEmpty();
+  }); //delete from taskListArray to 
+
+  endButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    var id = event.target.parentElement.getAttribute('data-id');
+    task.status = 3; // let index = taskListArray.findIndex(task => task.id === Number(id));
+    // updateItemFromArray(taskListArray,index,status);
+
+    item.remove();
+    updateEmpty();
+    addItemForDone(task);
+  });
+  updateEmpty();
+}
+
+function addItemForDone(task) {
+  updateEmpty(); // Create HTML elements 
+
+  var item = document.createElement("div");
+  item.setAttribute('data-id', task.id);
+  item.setAttribute('class', 'item');
+  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<div class='taskcont'> " + "<span>" + task.id + "</span>" + "<div class='tasksubcont'>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
+  tasklistdone.appendChild(item);
 }
 
 function removeItemFromArray(arr, index) {
@@ -256,11 +365,75 @@ function removeItemFromArray(arr, index) {
 }
 
 function updateEmpty() {
-  if (taskListArray.length > 0) {
-    document.getElementById('emptyList').style.display = 'none';
+  if (document.getElementById('donelist').getElementsByClassName("item").length > 0) {
+    document.getElementById('donelistp').style.display = 'none';
   } else {
-    document.getElementById('emptyList').style.display = 'block';
+    document.getElementById('donelistp').style.display = 'block';
   }
+
+  if (document.getElementById('undolist').getElementsByClassName("item").length > 0) {
+    document.getElementById('undolistp').style.display = 'none';
+  } else {
+    document.getElementById('undolistp').style.display = 'block';
+  } // if(document.getElementById('nextuplistp').getElementsByClassName("item").length>0){
+  //     document.getElementById('nextuplistp').style.display = 'none';
+  // }else{
+  //     document.getElementById('nextuplistp').style.display = 'block';
+  // }
+
+
+  if (document.getElementById('doinglist').getElementsByClassName("item").length > 0) {
+    document.getElementById('doinglistp').style.display = 'none';
+  } else {
+    document.getElementById('doinglistp').style.display = 'block';
+  } // if(taskListArray.length > 0){
+  //     document.getElementById('emptyList').style.display = 'none';
+  // }else{
+  //     document.getElementById('emptyList').style.display = 'block';
+  // }
+
+}
+
+function updateTime(timestr, id) {
+  clockTime = setInterval(function () {
+    var nowTime = new Date(); //now time
+    //create time
+    // var endTime = new Date(timestr);
+    // var seconds = parseInt((endTime.getTime() - nowTime.getTime()) / 1000);//sub
+
+    var seconds = parseInt((nowTime.getTime() - timestr.getTime()) / 1000); //sub(s)
+    // var d = parseInt(seconds / 3600 / 24);//d
+
+    var h = parseInt(seconds / 3600 % 24); //h
+
+    var m = parseInt(seconds / 60 % 60); //m
+
+    var s = parseInt(seconds % 60); //s
+
+    if (h < 10) h = "0" + h;
+    if (m < 10) m = "0" + m;
+    if (s < 10) s = "0" + s;
+    document.getElementById(id).innerHTML = h + ":" + m + ":" + s;
+  }, 1000);
+}
+},{}],"components/djs.js":[function(require,module,exports) {
+function cccc(day) {
+  // setInterval(function() {
+  var nowTime = new Date(); //get current time
+  //get specified time
+
+  var endTime = new Date(day);
+  var seconds = parseInt((endTime.getTime() - nowTime.getTime()) / 1000); //get elapsed seconds from starting timestamp to ending timestamp
+
+  var d = parseInt(seconds / 3600 / 24); //get days
+
+  var h = parseInt(seconds / 3600 % 24); //get hours
+
+  var m = parseInt(seconds / 60 % 60); //get minutes
+
+  var s = parseInt(seconds % 60); //get seconds
+
+  document.getElementById("djs").innerHTML = "" + d + "d" + h + ":" + m + ":" + s; // }, 1000);
 }
 },{}],"script.js":[function(require,module,exports) {
 "use strict";
@@ -268,6 +441,8 @@ function updateEmpty() {
 var _navigation = _interopRequireDefault(require("./components/navigation"));
 
 require("./components/tasklist");
+
+require("./components/djs");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -290,7 +465,7 @@ subNav.links.forEach(function (link) {
     subNav.setPage(pageId);
   });
 });
-},{"./components/navigation":"components/navigation.js","./components/tasklist":"components/tasklist.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./components/navigation":"components/navigation.js","./components/tasklist":"components/tasklist.js","./components/djs":"components/djs.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -318,7 +493,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51086" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60401" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
