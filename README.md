@@ -8,14 +8,14 @@
 
 1.Primary Features
 
-Task List
-Stopwatch Timer
+Task List;
+Stopwatch Timer;
 Music Player
 
 2.Secondary Features
 
-Covey Quadrants
-Users are able to start, stop, reset the timer with buttons
+Covey Quadrants;
+Users are able to start, stop, reset the timer with buttons;
 Dictionary Lookup
 
 #Meet the Following Technical Requirements
