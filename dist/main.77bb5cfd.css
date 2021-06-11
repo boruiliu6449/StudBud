@@ -1,67 +1,138 @@
-@charset "UTF-8";
 .app-container {
   height: 100%;
   background-color: #D6D6D6;
-}
-
-.page-container {
-  margin-left: 200px;
-  height: 100%;
-}
-.page-container#home {
-  text-align: center;
-}
-.page-container#add {
-  padding-top: 90px;
-  text-align: center;
-}
-.page-container:not(#home) {
-  display: none;
-}
-
-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200px;
-  height: 100%;
-  background-color: #000;
-  padding-top: 60px;
-  padding-right: 10px;
-  text-align: right;
-}
-nav .nav-title span {
-  display: block;
-  color: #fff;
-}
-nav .nav-links {
   margin: 0;
   padding: 0;
-  padding-top: 60px;
-  list-style: none;
-  width: 190px;
-  font-size: 16px;
-}
-nav .nav-links .nav-item {
-  list-style: none;
-  border-bottom: 1px solid #ccc;
-}
-nav .nav-links .nav-item a {
-  display: inline-block;
-  text-decoration: none;
-  color: white;
-  padding: 1em 2em;
-}
-nav .nav-links .nav-item a:hover {
-  color: #abc;
-}
-nav .nav-links .nav-item a.active {
-  font-weight: bold;
-  font-size: 18px;
 }
 
-#taskform {
-  margin: 90px auto;
+@media screen and (min-width: 750px) {
+  .page-container {
+    margin-left: 200px;
+    height: 100%;
+  }
+  .page-container#home {
+    text-align: center;
+  }
+  .page-container#add {
+    padding-top: 90px;
+    text-align: center;
+  }
+  .page-container:not(#home) {
+    display: none;
+  }
+}
+@media screen and (min-width: 375px) {
+  .page-container#home {
+    text-align: center;
+  }
+  .page-container#add {
+    padding-top: 10px;
+    text-align: center;
+  }
+  .page-container:not(#home) {
+    display: none;
+  }
+}
+@media screen and (min-width: 375px) {
+  nav {
+    background-color: #000;
+    padding-top: 20px;
+  }
+  nav .nav-title {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  nav .nav-title span {
+    display: block;
+    color: #fff;
+    padding-left: 10px;
+  }
+  nav .nav-links {
+    margin: 0;
+    padding: 0;
+    padding-top: 20px;
+    list-style: none;
+    font-size: 16px;
+    list-style: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  nav .nav-links .nav-item {
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+  }
+  nav .nav-links .nav-item a {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    padding: 1em 2em;
+  }
+  nav .nav-links .nav-item a:hover {
+    color: #abc;
+  }
+  nav .nav-links .nav-item a.active {
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 750px) {
+  nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #000;
+    padding-top: 60px;
+    padding-right: 10px;
+    text-align: right;
+  }
+  nav .nav-title {
+    display: block;
+  }
+  nav .nav-title span {
+    display: block;
+    color: #fff;
+    padding-left: 10px;
+  }
+  nav .nav-links {
+    margin: 0;
+    padding: 0;
+    padding-top: 60px;
+    list-style: none;
+    width: 190px;
+    font-size: 16px;
+    display: block;
+  }
+  nav .nav-links .nav-item {
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+  }
+  nav .nav-links .nav-item a {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    padding: 1em 2em;
+  }
+  nav .nav-links .nav-item a:hover {
+    color: #abc;
+  }
+  nav .nav-links .nav-item a.active {
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 375px) {
+  #taskform {
+    margin: 10px auto;
+  }
+}
+@media screen and (min-width: 750px) {
+  #taskform {
+    margin: 90px auto;
+  }
 }
 #taskform .taskdiv {
   display: -webkit-box;
@@ -207,7 +278,12 @@ nav .nav-links .nav-item a.active {
   padding: auto 15px;
 }
 
-/*行内块元素*/
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/*lineblock*/
 input, img {
   margin: 0;
   padding: 0;
@@ -224,8 +300,6 @@ label input[type=radio]:checked ~ i, label input[type=checkbox]:checked ~ i {
   color: #38d6ff;
 }
 
-/*可选*/
-/* 自定义数字框配置 */
 input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }

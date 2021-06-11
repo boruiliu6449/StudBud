@@ -4,7 +4,11 @@
 @import 'components/addtask';
 
 
-/*行内块元素*/
+body{
+    padding:0;
+    margin: 0;
+}
+/*lineblock*/
 input,img{
     margin: 0;
     padding: 0;
@@ -22,17 +26,6 @@ label input[type="radio"]:checked~i,label input[type="checkbox"]:checked~i{
     color: #38d6ff;
 }
 
-/*可选*/
-/* 自定义数字框配置 */
-// input[type="number"]{
-//     width: 76px;
-//     height: 36px;
-//     border: 2px solid #ccc;
-//     border-radius: 4px;
-//     color: #fff;
-//     font-size: 20px;
-    
-// }
 
 input[type="number"]::-webkit-inner-spin-button{
     -webkit-appearance: none;

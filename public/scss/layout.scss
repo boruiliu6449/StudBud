@@ -1,20 +1,43 @@
 .app-container{
     height: 100%;
     background-color: #D6D6D6;
+    margin:0;
+    padding:0;
 }
 
-.page-container{
-    margin-left: 200px;
-    height: 100%;
-    &#home{
-        text-align: center;
-    }
-    &#add{
-        padding-top:90px;
-
-        text-align: center;
-    }
-    &:not(#home){
-        display: none;
-    }
+@media screen and (min-width:750px) {
+    .page-container{
+        margin-left: 200px;
+        height: 100%;
+        &#home{
+            text-align: center;
+        }
+        &#add{
+            padding-top:90px;
+    
+            text-align: center;
+        }
+        &:not(#home){
+            display: none;
+        }
+    }     
 }
+
+@media screen and (min-width:375px) {
+    .page-container{
+        // margin-left: 40px;
+        // height: 100%;
+        &#home{
+            text-align: center;
+        }
+        &#add{
+            padding-top:10px;
+            text-align: center;
+        }
+        &:not(#home){
+            display: none;
+        }
+    }     
+}
+
+

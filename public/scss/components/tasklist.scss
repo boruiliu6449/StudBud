@@ -1,14 +1,13 @@
-// #task-grid{
-//     // display: grid;
-//     // grid-template-columns: 1fr 1fr;
-//     // grid-template-rows: 1fr;
-//     // grid-template-areas: "taskform tasklist";
-// }
+
 
 #taskform{
-    // grid-area: taskform;
-    // max-width: 300px;
-    margin: 90px auto;
+    @media screen and (min-width:375px){
+        margin: 10px auto;
+    }
+
+    @media screen and (min-width:750px){
+        margin: 90px auto;
+    }
     .taskdiv{
         display: flex;
         height: 45px;
