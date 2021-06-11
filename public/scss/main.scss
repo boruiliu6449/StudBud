@@ -52,3 +52,41 @@ input[type="number"]+div{
     // margin: 20% auto;
     // line-height: 50px;
 }
+
+
+.search{
+    width:100%;
+    margin: 10px 20px;
+    div{
+        margin:10px 0;
+        input{
+            width: 240px;
+            height: 38px;
+        }
+        button{
+            margin-left: 20px;
+            background-color: #C3D08B;
+            height: 40px;
+            line-height: 40px;
+            border: none;
+            border-radius: 5px;
+            width: 60px;
+            color: #fff;
+        }
+        .defintion{
+            display: block;
+            line-height: 20px;
+            background-color: #e6e6e6;
+        }
+        .synonyms{
+            display: block;
+            line-height: 20px;
+            background-color: #ffffff;
+        }
+        
+    }
+
+}
+
+
+

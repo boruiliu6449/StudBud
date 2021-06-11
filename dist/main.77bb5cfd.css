@@ -322,4 +322,36 @@ input[type=number] + div {
   display: contents;
 }
 
+.search {
+  width: 100%;
+  margin: 10px 20px;
+}
+.search div {
+  margin: 10px 0;
+}
+.search div input {
+  width: 240px;
+  height: 38px;
+}
+.search div button {
+  margin-left: 20px;
+  background-color: #C3D08B;
+  height: 40px;
+  line-height: 40px;
+  border: none;
+  border-radius: 5px;
+  width: 60px;
+  color: #fff;
+}
+.search div .defintion {
+  display: block;
+  line-height: 20px;
+  background-color: #e6e6e6;
+}
+.search div .synonyms {
+  display: block;
+  line-height: 20px;
+  background-color: #ffffff;
+}
+
 /*# sourceMappingURL=/main.77bb5cfd.css.map */

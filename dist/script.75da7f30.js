@@ -469,24 +469,51 @@ function getElapsedTime(task) {
   if (s < 10) s = "0" + s;
   return "Total Time  Consumption: " + h + ":" + m + ":" + s;
 }
-},{}],"components/djs.js":[function(require,module,exports) {
-function cccc(day) {
-  // setInterval(function() {
-  var nowTime = new Date(); //get current time
-  //get specified time
+},{}],"components/search.js":[function(require,module,exports) {
+var searchbtn = document.getElementById("searchbtn");
+var searchInput = document.getElementById("searchInput");
+var getAnswer = document.querySelector("#getAnswer");
+var Http = new XMLHttpRequest();
+var url = "https://api.dictionaryapi.dev/api/v2/entries/en_US/";
+searchbtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  var getAnswerP = document.getElementById("getAnswer");
+  getAnswerP.innerHTML = ""; // var child=document.getElementById('getAnswerCont');
+  // getAnswerP.removeChild(child);
 
-  var endTime = new Date(day);
-  var seconds = parseInt((endTime.getTime() - nowTime.getTime()) / 1000); //get elapsed seconds from starting timestamp to ending timestamp
+  searchForApi(searchInput.value);
+});
 
-  var d = parseInt(seconds / 3600 / 24); //get days
+function searchForApi(searchWord) {
+  Http.open("GET", url + searchWord);
+  Http.send();
 
-  var h = parseInt(seconds / 3600 % 24); //get hours
+  Http.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      var data = JSON.parse(Http.responseText);
 
-  var m = parseInt(seconds / 60 % 60); //get minutes
+      for (var i = 0; i < data.length; i++) {
+        var datason = data[i].meanings;
 
-  var s = parseInt(seconds % 60); //get seconds
+        for (var j = 0; j < datason.length; j++) {
+          var datasonson = datason[j].definitions;
 
-  document.getElementById("djs").innerHTML = "" + d + "d" + h + ":" + m + ":" + s; // }, 1000);
+          for (var m = 0; m < datasonson.length; m++) {
+            var item = document.createElement("div");
+            item.setAttribute('id', 'getAnswerCont');
+            item.innerHTML = "<span class='defintion'>" + datasonson[m].definition + "</span>";
+            console.log("=====");
+
+            if (datasonson[m].synonyms) {
+              item.innerHTML += "<span class='synonyms'>[" + datasonson[m].synonyms + "]</span>";
+            }
+
+            getAnswer.appendChild(item);
+          }
+        }
+      }
+    }
+  };
 }
 },{}],"script.js":[function(require,module,exports) {
 "use strict";
@@ -495,7 +522,7 @@ var _navigation = _interopRequireDefault(require("./components/navigation"));
 
 require("./components/tasklist");
 
-require("./components/djs");
+require("./components/search");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -518,7 +545,7 @@ subNav.links.forEach(function (link) {
     subNav.setPage(pageId);
   });
 });
-},{"./components/navigation":"components/navigation.js","./components/tasklist":"components/tasklist.js","./components/djs":"components/djs.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./components/navigation":"components/navigation.js","./components/tasklist":"components/tasklist.js","./components/search":"components/search.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -546,7 +573,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52539" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56487" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

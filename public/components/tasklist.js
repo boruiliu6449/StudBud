@@ -16,7 +16,7 @@ var priorityInput = document.getElementById("priorityInput");
 
 var clockTime;
 form.addEventListener( "submit", function(event) {
-    event . preventDefault();
+    event.preventDefault();
     let task = taskInput.value;
     let dueDate = dueDateInput.value;
     let completionTime = completionTimeInput.value;
