@@ -210,6 +210,10 @@ function addTask(taskDescription, dueDate, estimatedTime, priorityRating, comple
 
   var d = new Date();
   var dateCreated = d.getFullYear();
+  var elapsedTime = 0; // Total elapsed time: initialized as zero with the unit second 
+
+  var beginningElapsedTime = 0; // Beginning elapsed time: initialized as zero with the unit second, used for updating doing tasks
+
   var task = (_task = {
     id: Date.now(),
     taskDescription: taskDescription,
@@ -218,7 +222,7 @@ function addTask(taskDescription, dueDate, estimatedTime, priorityRating, comple
     estimatedTime: estimatedTime,
     completionTime: completionTime,
     priorityRating: priorityRating
-  }, _defineProperty(_task, "estimatedTime", estimatedTime), _defineProperty(_task, "completionStatus", completionStatus), _task);
+  }, _defineProperty(_task, "estimatedTime", estimatedTime), _defineProperty(_task, "completionStatus", completionStatus), _defineProperty(_task, "elapsedTime", elapsedTime), _defineProperty(_task, "beginningElapsedTime", beginningElapsedTime), _task);
   taskListArray.push(task);
   renderTask(task);
 }
@@ -237,7 +241,7 @@ function renderTask(task) {
   var item = document.createElement("div");
   item.setAttribute('data-id', task.id);
   item.setAttribute('class', 'item');
-  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<div class='taskcont'> " + "<span>" + task.id + "</span>" + "<div class='tasksubcont'>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
+  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<div class='taskcont'> " + "<span style='display:none'>" + task.id + "</span>" + "<div class='tasksubcont'>" + "<p>" + getElapsedTime(task) + "</p>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
   tasklistundo.appendChild(item); // let item = document.createElement("li");
   // item.setAttribute('data-id',task.id);
   // item.innerHTML = "<p>" + task.taskDescription + "</p>";
@@ -253,7 +257,12 @@ function renderTask(task) {
   startButton.setAttribute('class', 'startbtn');
   var startButtonText = document.createTextNode("Start");
   startButton.appendChild(startButtonText);
-  item.appendChild(startButton); // Event Listeners for DOM elements
+  item.appendChild(startButton);
+  var restartButton = document.createElement("button");
+  restartButton.setAttribute('class', 'startbtn');
+  var restartButtonText = document.createTextNode("Restart");
+  restartButton.appendChild(restartButtonText);
+  item.appendChild(restartButton); // Event Listeners for DOM elements
 
   delButton.addEventListener("click", function (event) {
     event.preventDefault();
@@ -277,18 +286,34 @@ function renderTask(task) {
     item.remove();
     updateEmpty();
     addItemForDoing(task);
+  });
+  restartButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    var id = event.target.parentElement.getAttribute('data-id');
+    task.elapsedTime = 0;
+    task.beginningElapsedTime = 0; // let index = taskListArray.findIndex(task => task.id === Number(id));
+    // updateItemFromArray(taskListArray,index);
+
+    console.log(taskListArray);
+    item.remove();
+    addItemForDoing(task);
+    updateEmpty();
   }); // Clear the input form
 
   form.reset();
   updateEmpty();
 }
+/*
+*
+*/
+
 
 function addItemForDoing(task) {
   // Create HTML elements 
   var item = document.createElement("div");
   item.setAttribute('data-id', task.id);
   item.setAttribute('class', 'item');
-  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<p class='djs' id='djs_" + task.priorityRating + "'></p>" + "<div class='taskcont'> " + "<span>" + task.id + "</span>" + "<div class='tasksubcont'>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
+  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<p class='djs' id='djs_" + task.priorityRating + "'>00:00:00</p>" + "<div class='taskcont'> " + "<span style='display:none'> " + task.id + "</span>" + "<div class='tasksubcont'>" + "<p id = 'djs_elapsedTime'>" + getElapsedTime(task) + "</p>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
   tasklistdoing.appendChild(item);
   var delButton = document.createElement("button");
   delButton.setAttribute('class', 'deletebtn');
@@ -297,28 +322,34 @@ function addItemForDoing(task) {
   item.appendChild(delButton);
   var endButton = document.createElement("button");
   endButton.setAttribute('class', 'startbtn');
-  var endButtonText = document.createTextNode("end");
+  var endButtonText = document.createTextNode("Complete");
   endButton.appendChild(endButtonText);
   item.appendChild(endButton);
   var stopButton = document.createElement("button");
   stopButton.setAttribute('class', 'startbtn');
-  var stopButtonText = document.createTextNode("stop");
+  var stopButtonText = document.createTextNode("Stop");
   stopButton.appendChild(stopButtonText);
   item.appendChild(stopButton);
   var restartButton = document.createElement("button");
   restartButton.setAttribute('class', 'startbtn');
-  var restartButtonText = document.createTextNode("restart");
+  var restartButtonText = document.createTextNode("Restart");
   restartButton.appendChild(restartButtonText);
   item.appendChild(restartButton);
-  updateTime(new Date(), "djs_" + task.priorityRating);
+  updateTime(new Date(), "djs_" + task.priorityRating, task);
   restartButton.addEventListener("click", function (event) {
     event.preventDefault();
     clearInterval(clockTime);
-    updateTime(new Date(), "djs_" + task.priorityRating);
+    task.elapsedTime = 0;
+    task.beginningElapsedTime = 0;
+    updateTime(new Date(), "djs_" + task.priorityRating, task);
   });
   stopButton.addEventListener("click", function (event) {
     event.preventDefault();
+    task.beginningElapsedTime = task.elapsedTime;
     clearInterval(clockTime);
+    item.remove();
+    addItemForNotDone(task);
+    updateEmpty();
   }); // Event Listeners for DOM elements
 
   delButton.addEventListener("click", function (event) {
@@ -340,10 +371,14 @@ function addItemForDoing(task) {
     // updateItemFromArray(taskListArray,index,status);
 
     item.remove();
-    updateEmpty();
     addItemForDone(task);
+    updateEmpty();
   });
   updateEmpty();
+}
+
+function addItemForNotDone(task) {
+  renderTask(task);
 }
 
 function addItemForDone(task) {
@@ -352,7 +387,7 @@ function addItemForDone(task) {
   var item = document.createElement("div");
   item.setAttribute('data-id', task.id);
   item.setAttribute('class', 'item');
-  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<div class='taskcont'> " + "<span>" + task.id + "</span>" + "<div class='tasksubcont'>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
+  item.innerHTML = "<button class='" + task.priorityRating + "'>" + task.priorityRating + "</button>" + "<div class='taskcont'> " + "<span style='display:none'>" + task.id + "</span>" + "<div class='tasksubcont'>" + "<p>" + getElapsedTime(task) + "</p>" + "<p>" + task.taskDescription + "</p>" + "</div>" + "</div>";
   tasklistdone.appendChild(item);
 }
 
@@ -394,7 +429,7 @@ function updateEmpty() {
 
 }
 
-function updateTime(timestr, id) {
+function updateTime(timestr, id, task) {
   clockTime = setInterval(function () {
     var nowTime = new Date(); //now time
     //create time
@@ -404,7 +439,7 @@ function updateTime(timestr, id) {
     var seconds = parseInt((nowTime.getTime() - timestr.getTime()) / 1000); //sub(s)
     // var d = parseInt(seconds / 3600 / 24);//d
 
-    var h = parseInt(seconds / 3600 % 24); //h
+    var h = parseInt(seconds / 3600); //h
 
     var m = parseInt(seconds / 60 % 60); //m
 
@@ -413,8 +448,26 @@ function updateTime(timestr, id) {
     if (h < 10) h = "0" + h;
     if (m < 10) m = "0" + m;
     if (s < 10) s = "0" + s;
-    document.getElementById(id).innerHTML = h + ":" + m + ":" + s;
+    document.getElementById(id).innerHTML = h + ":" + m + ":" + s; // Elapsed Time
+
+    task.elapsedTime = task.beginningElapsedTime + seconds;
+    document.getElementById('djs_elapsedTime').innerHTML = getElapsedTime(task);
   }, 1000);
+} //Get String of Elapsed Time for displaying
+
+
+function getElapsedTime(task) {
+  var seconds = task.elapsedTime;
+  var h = parseInt(seconds / 3600); //h
+
+  var m = parseInt(seconds / 60 % 60); //m
+
+  var s = parseInt(seconds % 60); //s
+
+  if (h < 10) h = "0" + h;
+  if (m < 10) m = "0" + m;
+  if (s < 10) s = "0" + s;
+  return "Total Time  Consumption: " + h + ":" + m + ":" + s;
 }
 },{}],"components/djs.js":[function(require,module,exports) {
 function cccc(day) {
@@ -493,7 +546,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60401" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59777" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
